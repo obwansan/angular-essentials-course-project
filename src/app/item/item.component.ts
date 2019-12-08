@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-item',
@@ -6,10 +6,25 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./item.component.css']
 })
 export class ItemComponent implements OnInit {
+  // Make the character property bindable from outside.
+  // In the <app-item> selector in list.component.html, the character property is bound to the char
+  // of the characters *ngFor loops over. char is each of the character objects in the characters array
+  // set in TabsComponent. So the character property in ItemComponent will hold the character object
+  // corresponding to the clicked item.
+  @Input() character;
+  // Outputting the event emitter enables it to emit to the parent component?
+  @Output() sideAssigned = new EventEmitter<{ name: string, side: string }>();
 
   constructor() { }
 
   ngOnInit() {
   }
+
+  onAssign(side) {
+    // this.character.side = side;
+    // The object is emmitted to the parent component (i.e. ListComponent)
+    this.sideAssigned.emit({ name: this.character.name, side: side });
+  }
+
 
 }

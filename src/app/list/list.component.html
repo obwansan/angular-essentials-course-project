@@ -1,3 +1,13 @@
-<p>
-  list works!
-</p>
+<div class="list-group">
+  <!-- We have access to the characters array here because getCharacters() was bound to
+  the 'characters' property in the <app-list> selector in the <tabs-component> template,
+  i.e. tabs.component.html -->
+
+  <!-- Angular provides the $event parameter that holds the event object. In this case our
+  JS object with the name and side key-value pairs. -->
+  <app-item
+    *ngFor="let char of characters"
+    [character]="char"
+    (sideAssigned)="onSideAssigned($event)">
+  </app-item>
+</div>
