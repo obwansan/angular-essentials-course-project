@@ -1,9 +1,12 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
+import { StarWarsService } from '../star-wars.service';
+
 @Component({
   selector: 'app-item',
   templateUrl: './item.component.html',
-  styleUrls: ['./item.component.css']
+  styleUrls: ['./item.component.css'],
+  providers: [StarWarsService]
 })
 export class ItemComponent implements OnInit {
   // Make the character property bindable from outside.
@@ -14,8 +17,12 @@ export class ItemComponent implements OnInit {
   @Input() character;
   // Outputting the event emitter enables it to emit to the parent component?
   @Output() sideAssigned = new EventEmitter<{ name: string, side: string }>();
+  swService: StarWarsService;
 
-  constructor() { }
+  // Dependency injection: inject/pass the service into the class/component when it's instantiated.
+  constructor(swService: StarWarsService) {
+    this.swService = swService;
+   }
 
   ngOnInit() {
   }
@@ -23,7 +30,8 @@ export class ItemComponent implements OnInit {
   onAssign(side) {
     // this.character.side = side;
     // The object is emmitted to the parent component (i.e. ListComponent)
-    this.sideAssigned.emit({ name: this.character.name, side: side });
+    // this.sideAssigned.emit({ name: this.character.name, side: side });
+    this.swService.onSideChosen({name: this.character.name, side: side});
   }
 
 

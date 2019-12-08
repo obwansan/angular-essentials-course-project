@@ -1,19 +1,21 @@
 import { Component, OnInit } from '@angular/core';
+import { StarWarsService } from '../star-wars.service';
 
 @Component({
   selector: 'app-tabs',
   templateUrl: './tabs.component.html',
-  styleUrls: ['./tabs.component.css']
+  styleUrls: ['./tabs.component.css'],
+  providers: [StarWarsService]
 })
 export class TabsComponent implements OnInit {
-  characters = [
-    { name: 'Luke Skywalker', side: '' },
-    { name: 'Darth Vader', side: '' }
-  ];
-
+  characters = [];
   chosenList = 'all';
+  swService: StarWarsService;
 
-  constructor() { }
+   // Dependency injection: inject/pass the service into the class/component when it's instantiated.
+   constructor(swService: StarWarsService) {
+    this.swService = swService;
+   }
 
   ngOnInit() {
   }
@@ -23,31 +25,8 @@ export class TabsComponent implements OnInit {
   }
 
   getCharacters() {
-    // Slicing ensures that the original array can't be modified.
-    // If 'All' tab is clicked, show all characters in the array
-    if (this.chosenList === 'all') {
-      return this.characters.slice();
-    }
-    // If 'Light' or 'Dark' tab is clicked, show only those characters whose side matches
-    // the chosen list (i.e. the selected 'All', 'Light' or 'Dark' tab).
-    return this.characters.filter((char) => {
-      return char.side === this.chosenList;
-    });
-  }
-
-  // When you click the Light or Dark button (in <app-item>), onAssign() is called, which uses the
-  // sideAssigned eventEmitter object to emit the selected character object to its parent object,
-  // ListComponent. <app-item> in list.component.html listens for the sideAssigned emit event and
-  // calls onSideAssigned($event), passing it the originally emmitted character object (charInfo).
-  // ListComponent in turn emits the character object. <app-list> in tabs.component.html listens for
-  // the sideAssigned emit event and calls onSideChosen(), passing it the character object (charInfo).
-  onSideChosen(charInfo) {
-    // Get the index of the selected/clicked character in the characters array
-    const pos = this.characters.findIndex((char) => {
-      return char.name === charInfo.name;
-    });
-    // Assign the selected side ('light' or 'dark' to )
-    this.characters[pos].side = charInfo.side;
+    this.characters = this.swService.getCharacters(this.chosenList);
+    return this.characters;
   }
 
 }
