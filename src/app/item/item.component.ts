@@ -1,12 +1,11 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 import { StarWarsService } from '../star-wars.service';
 
 @Component({
   selector: 'app-item',
   templateUrl: './item.component.html',
-  styleUrls: ['./item.component.css'],
-  providers: [StarWarsService]
+  styleUrls: ['./item.component.css']
 })
 export class ItemComponent implements OnInit {
   // Make the character property bindable from outside.
@@ -15,8 +14,6 @@ export class ItemComponent implements OnInit {
   // set in TabsComponent. So the character property in ItemComponent will hold the character object
   // corresponding to the clicked item.
   @Input() character;
-  // Outputting the event emitter enables it to emit to the parent component?
-  @Output() sideAssigned = new EventEmitter<{ name: string, side: string }>();
   swService: StarWarsService;
 
   // Dependency injection: inject/pass the service into the class/component when it's instantiated.

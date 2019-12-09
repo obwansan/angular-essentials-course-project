@@ -1,8 +1,23 @@
+import { LogService } from './log.service';
+import { Injectable } from '@angular/core';
+
+// The @Injectable decorator marks a class as available to be provided and injected as a dependency.
+// Marking a class with @Injectable ensures that the compiler will generate the necessary metadata
+// to create the class's dependencies when the class is injected.
+// Why don't you need it when injecting a class into a class component, but do for a class service?
+@Injectable()
 export class StarWarsService {
   private characters = [
     { name: 'Luke Skywalker', side: '' },
     { name: 'Darth Vader', side: '' }
   ];
+  private logService: LogService;
+
+  // Injecting a service into a service.
+  // You can only do this if you specifiy the service as a provider in the app module.
+  constructor(logService: LogService) {
+    this.logService = logService;
+  }
 
   getCharacters(chosenList) {
     // Slicing ensures that the original array can't be modified.
@@ -28,7 +43,21 @@ export class StarWarsService {
     const pos = this.characters.findIndex((char) => {
       return char.name === charInfo.name;
     });
-    // Assign the selected side ('light' or 'dark' to )
+    // Assign the selected side ('light' or 'dark') to the selected character.
     this.characters[pos].side = charInfo.side;
+    this.logService.writeLog('Changed side of ' + charInfo.name + '. New side: ' + charInfo.side);
+  }
+
+  addCharacter(name, side) {
+    // Check if the submitted name has already been added.
+    const pos = this.characters.findIndex((char) => {
+      return char.name === name;
+    });
+    // Don't add character if the name is already in the characters array.
+    if (pos !== -1) {
+      return;
+    }
+    const newChar = {name: name, side: side};
+    this.characters.push(newChar);
   }
 }

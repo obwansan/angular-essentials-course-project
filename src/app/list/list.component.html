@@ -5,9 +5,5 @@
 
   <!-- Angular provides the $event parameter that holds the event object. In this case our
   JS object with the name and side key-value pairs. -->
-  <app-item
-    *ngFor="let char of characters"
-    [character]="char"
-    (sideAssigned)="onSideAssigned($event)">
-  </app-item>
+  <app-item *ngFor="let char of characters" [character]="char"></app-item>
 </div>

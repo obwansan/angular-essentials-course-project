@@ -1,0 +1,40 @@
+<!-- ngSubmit listens to the form submission, prevents the default submission to the server,
+and calls the function assigned/bound to it instead. -->
+
+<!-- #form is a 'local .reference' (we could name it anything). Putting this #X syntax on any
+element gives you access to the native HTML element. Can use it anywhere in the template.
+ngForm is the JS object that Angular creates that keeps track of the form. We bind this object
+to the local refrence #form that can only be used in the template (not in the TS code in the
+component). But, we can pass it into the onSubmit() method, which makes the JS form object
+available in the component  -->
+<form (ngSubmit)="onSubmit(form)" #form="ngForm">
+  <div class="form-group">
+    <label for="name">Character Name</label>
+    <!-- ngModel tells Angular this is a form (input) that it needs to be aware of. -->
+    <!-- Putting ngModel on any form element gives us access to the underlying JS form control
+      object that Angular manages for that control (i.e. just the input element, not the whole form) -->
+    <input 
+      type="text" 
+      id="name" 
+      name="name" 
+      class="form-control" 
+      [ngModel]="defaultName" 
+      required 
+      #nameCtrl="ngModel">
+    <!-- The invalid property of the nameCtrl object will be true if the form is submitted when no
+    text has been entered. The touched property of the nameCtrl object will be true only if the
+    input field has been clicked or text entered. -->
+    <span class="help-block" *ngIf="nameCtrl.invalid && nameCtrl.touched">Please enter a name!</span>
+  </div>
+  <div class="form-group">
+    <label for="side">Choose side</label>
+      <select name="side" id="side" class="form-control" ngModel>
+        <option *ngFor="let option of availableSides" [value]="option.value">
+          {{ option.display }}
+        </option>
+      </select>
+  </div>
+  <!-- The disabled property is true if the invalid property of the local reference #form object
+  is true, i.e. if no text has been entered.  -->
+  <button class="btn btn-primary" type="submit" [disabled]="form.invalid">Add Character</button>
+</form>

@@ -12,5 +12,5 @@
   </ul>
   <!-- Can access sideAssigned here because its outputted by ListComponent.
   When sideAssigned emits an object, call onSideChosen and pass it the character object. -->
-  <app-list [characters]="getCharacters()" (sideAssigned)="onSideChosen($event)"></app-list>
+  <app-list [characters]="getCharacters()"></app-list>
 </div>
