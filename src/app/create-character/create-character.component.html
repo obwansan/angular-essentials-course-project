@@ -13,13 +13,13 @@ available in the component  -->
     <!-- ngModel tells Angular this is a form (input) that it needs to be aware of. -->
     <!-- Putting ngModel on any form element gives us access to the underlying JS form control
       object that Angular manages for that control (i.e. just the input element, not the whole form) -->
-    <input 
-      type="text" 
-      id="name" 
-      name="name" 
-      class="form-control" 
-      [ngModel]="defaultName" 
-      required 
+    <input
+      type="text"
+      id="name"
+      name="name"
+      class="form-control"
+      [ngModel]="         "
+      required
       #nameCtrl="ngModel">
     <!-- The invalid property of the nameCtrl object will be true if the form is submitted when no
     text has been entered. The touched property of the nameCtrl object will be true only if the

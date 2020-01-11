@@ -1,0 +1,17 @@
+<ul class="nav nav-pills">
+  <!-- routerLink is an Angular directive. If you just pass a string, not a function,
+  you don't need to wrap the directive in square brackets, e.g. [routerLink]="'/'" -->
+  <!-- routerLinkActive="active" makes the li active whenever the <a> with a routerLink
+    has been selected. -->
+  <!-- [routerLinkActiveOptions]="{exact: true}" makes routerLinkActive="active" work only
+  when the whole of the path is used (not just the "/" which is part of every path.)  -->
+  <li
+    role="presentation"
+    routerLinkActive="active"
+    [routerLinkActiveOptions]="{exact: true}">
+    <a routerLink="/">Star Wars Characters</a>
+  </li>
+  <li role="presentation" routerLinkActive="active">
+    <a routerLink="/new-character">New Characters</a>
+  </li>
+</ul>

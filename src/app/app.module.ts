@@ -1,6 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 
 import { AppComponent } from './app.component';
 import { TabsComponent } from './tabs/tabs.component';
@@ -9,6 +10,12 @@ import { ItemComponent } from './item/item.component';
 import { StarWarsService } from './star-wars.service';
 import { LogService } from './log.service';
 import { CreateCharacterComponent } from './create-character/create-character.component';
+import { HeaderComponent } from './header/header.component';
+
+const routes = [
+  { path: '', component: TabsComponent },
+  { path: 'new-character', component: CreateCharacterComponent }
+]
 
 // Creating a component via the command line automatically adds it to the declarations array.
 
@@ -22,11 +29,14 @@ import { CreateCharacterComponent } from './create-character/create-character.co
     TabsComponent,
     ListComponent,
     ItemComponent,
-    CreateCharacterComponent
+    CreateCharacterComponent,
+    HeaderComponent
   ],
   imports: [
     BrowserModule,
-    FormsModule
+    FormsModule,
+    // passing in the routes array registers the routes in the router module
+    RouterModule.forRoot(routes)
   ],
   providers: [StarWarsService, LogService],
   bootstrap: [AppComponent]
