@@ -1,4 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { StarWarsService } from 'app/star-wars.service';
 
 @Component({
   selector: 'app-list',
@@ -6,13 +8,25 @@ import { Component, OnInit, Input } from '@angular/core';
   styleUrls: ['./list.component.css']
 })
 export class ListComponent implements OnInit {
-  // Decorating the 'characters' property with the @Input decorator allows you to bind/assign
-  // values to it in the <app-list> selector. Bit like passing props in React.
-  @Input() characters;
+  characters = [];
+  activatedRoute: ActivatedRoute;
+  swService: StarWarsService;
 
-  constructor() { }
+  constructor(activatedRoute: ActivatedRoute, swService: StarWarsService) {
+    this.activatedRoute = activatedRoute;
+    this.swService = swService;
+  }
 
   ngOnInit() {
+    // subscribing to an observable (i.e. asynchronously listening for changes in the route parameters)
+    this.activatedRoute.params.subscribe(
+      // this function is executed whenever parameters change (passed the changed params)
+      (params) => {
+        // the name 'side' has to be identical to the param name used in the route in app.module
+        // e.g. { path: ':side', component: ListComponent }
+        this.characters = this.swService.getCharacters(params.side);
+      }
+    );
   }
 
 }
