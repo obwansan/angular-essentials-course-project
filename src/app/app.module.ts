@@ -13,8 +13,13 @@ import { CreateCharacterComponent } from './create-character/create-character.co
 import { HeaderComponent } from './header/header.component';
 
 const routes = [
-  { path: '', component: TabsComponent },
-  { path: 'new-character', component: CreateCharacterComponent }
+  // the child will be the next url segment, e.g. characters/light
+  { path: 'characters', component: TabsComponent, children: [
+    { path: '', redirectTo: 'all', pathMatch: 'full' },
+    { path: ':side', component: ListComponent }
+  ] },
+  { path: 'new-character', component: CreateCharacterComponent },
+  { path: '**', redirectTo: '/characters'}
 ]
 
 // Creating a component via the command line automatically adds it to the declarations array.
