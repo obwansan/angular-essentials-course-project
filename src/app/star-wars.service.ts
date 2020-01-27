@@ -1,5 +1,6 @@
 import { LogService } from './log.service';
 import { Injectable } from '@angular/core';
+import { Subject } from 'rxjs/Subject';
 
 // The @Injectable decorator marks a class as available to be provided and injected as a dependency.
 // Marking a class with @Injectable ensures that the compiler will generate the necessary metadata
@@ -7,11 +8,15 @@ import { Injectable } from '@angular/core';
 // Why don't you need it when injecting a class into a class component, but do for a class service?
 @Injectable()
 export class StarWarsService {
+
   private characters = [
     { name: 'Luke Skywalker', side: '' },
     { name: 'Darth Vader', side: '' }
   ];
   private logService: LogService;
+  // An rxjs Subject is basically the same as an Angular event emitter (it emits a value
+  // and you can subscribe to it). Just better architectural practice to use a Subject.
+  charactersChanged = new Subject<void>();
 
   // Injecting a service into a service.
   // You can only do this if you specifiy the service as a provider in the app module.
@@ -45,6 +50,7 @@ export class StarWarsService {
     });
     // Assign the selected side ('light' or 'dark') to the selected character.
     this.characters[pos].side = charInfo.side;
+    this.charactersChanged.next();
     this.logService.writeLog('Changed side of ' + charInfo.name + '. New side: ' + charInfo.side);
   }
 
